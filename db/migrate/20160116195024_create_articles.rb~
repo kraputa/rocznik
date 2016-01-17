@@ -1,0 +1,25 @@
+class CreateArticles < ActiveRecord::Migration
+  def change
+    create_table :articles do |t|
+      t.string :status
+      t.string :polish_title
+      t.string :english_title
+      t.text :polish_abstract
+      t.text :english_abstract
+      t.string :polish_keywords
+      t.string :english_keywords
+      t.text :remarks
+      t.text :funding
+      t.date :received
+      t.string :language
+      
+      t.timestamps null: false
+			t
+    end
+    add_reference :articles, :person, index: true, foreign_key: true
+    add_reference :articles, :issue, index: true, foreign_key: true
+  end
+		
+	change_table :article_revisions do |at|
+		at.belongs_to :article, index: true
+end

@@ -1,0 +1,13 @@
+= simple_form_for @issue do |f|
+  - if @author_id
+    = hidden_field_tag :author_id, @author_id
+  
+  = f.input :year, label: "Rok"
+  = f.input :volume, label: "Numer"
+
+  = f.association :submissions, label: "Zgłoszenia", collection: Submission.where(status: "przyjęty"), include_blank: false, label_method: :polish_title
+  
+  = f.select :submissions, Submission.where(status: "przyjęty").collect {|x| [x.title, x.id]}, {}, :multiple => true
+  
+  - label = @issue.new_record? ? "Utwórz" : "Zapisz"
+  = f.submit label, class: %w{btn btn-primary btn-outline}  

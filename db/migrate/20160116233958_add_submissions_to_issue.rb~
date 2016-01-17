@@ -1,0 +1,5 @@
+class AddSubmissionsToIssue < ActiveRecord::Migration
+  def change
+		add_reference :issue,:submissions, index: true,  foreign_key: true
+  end
+end

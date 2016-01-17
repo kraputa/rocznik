@@ -1,20 +1,16 @@
 # encoding: utf-8
 
-class Submission < ActiveRecord::Base
-  STATUS_MAPPING = {
-    "nadesłany" => :sent, "u redaktora" => :editor, "w recenzji" => :review,
-    "przyjęty" => :positive, "odrzucony" => :negative, "do poprawy" => :correction
-  }
+class Article < ActiveRecord::Base
+  
   POLISH = 'polski'
   ENGLISH = 'angielski'
-  validates :status, presence: true, inclusion: STATUS_MAPPING.keys
   validates :language, presence: true, inclusion: [POLISH, ENGLISH]
   validates :received, presence: true
   validates :polish_title, presence: true, if: -> (r){ r.language == POLISH}
   validates :english_title, presence: true, if: -> (r){ r.language == ENGLISH}
 
   has_many :authorships, dependent: :destroy
-  has_many :article_revisions, dependent: :destroy
+  has_one :article_revision, dependent: :destroy
   belongs_to :person
 	belongs_to :issue
 
